@@ -37,7 +37,6 @@ jobs:
           GLUON_GIT_REF: v2023.2.6
           GLUON_TARGET: x86-64
         run: |
-          make update
           make GLUON_GIT_REF=${GLUON_GIT_REF} GLUON_TARGET=${GLUON_TARGET} V=s
 
       - name: Upload artifacts
