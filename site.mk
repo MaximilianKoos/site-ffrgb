@@ -7,6 +7,8 @@ GLUON_PRIORITY ?= 0
 GLUON_REGION ?= eu
 GLUON_LANGS ?= en de
 
+# additional packages
+
 INCLUDE_USB := \
     usbutils
 
@@ -179,7 +181,7 @@ USB_PACKAGES_NET := \
 USB_PACKAGES_NET_ADD := \
 	kmod-rtl8192cu \
 	kmod-rtl8187 \
-	kmod-ath9k-htc \
+	kmod-ath9k-htc  \
 	kmod-ath9k-common \
 	kmod-ath \
 	kmod-rt73-usb \
