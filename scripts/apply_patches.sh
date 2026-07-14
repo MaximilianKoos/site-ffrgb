@@ -1,50 +1,44 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-set -eEu
-set -o pipefail
+BUILD_DIR="${1:-}"
+PATCH_DIR="${2:-./patches}"
+
+if [[ -z "${BUILD_DIR}" ]]; then
+  echo "Usage: $0 <build-dir> [patch-dir]"
+  exit 1
+fi
+
+PATCH_DIR="$(realpath "${PATCH_DIR}")"
+
+echo "Setting patch directory to ${PATCH_DIR}"
+
+if [[ ! -d "${BUILD_DIR}" ]]; then
+  echo "Build directory does not exist: ${BUILD_DIR}"
+  exit 1
+fi
+
+if [[ ! -d "${PATCH_DIR}" ]]; then
+  echo "Patch directory does not exist: ${PATCH_DIR} - skipping patch step."
+  exit 0
+fi
+
 shopt -s nullglob
+PATCHES=( "${PATCH_DIR}"/*.patch )
+shopt -u nullglob
 
-gluon_build_dir=${1:-gluon-build}
-gluon_patch_dir="${2:-patches}"
-
-function reset_gluon_build_dir() {
-    # Make sure we are in the correct folder
-    if [[ ! $(pwd) =~ .*${gluon_build_dir} ]]; then
-        echo "Resetting environment in the wrong folder. Aborting."
-        return 1
-    fi
-    echo "Resetting environment."
-
-    # Reset all files known to git, but keep manually commited changes.
-    git checkout .
-    # Delete all files not known to git
-    git clean -dx --force
-    echo "Environment reset."
-}
-
-# Relative patches folder does not work with git-apply below. Make sure it is an absolute path.
-if [[ ! ${gluon_patch_dir} =~ ^/ ]]; then
-    gluon_patch_dir="${PWD}/${gluon_patch_dir}"
-    echo "Setting patch directory to ${gluon_patch_dir}"
+if [[ ${#PATCHES[@]} -eq 0 ]]; then
+  echo "No patches found in ${PATCH_DIR}, skipping patch step."
+  exit 0
 fi
 
-pushd "${gluon_build_dir}"
+pushd "${BUILD_DIR}" >/dev/null
 
-# Check if there are any patches at all
-if ! compgen -G "${gluon_patch_dir}/*.patch" >/dev/null; then
-    echo "No patches found in ${gluon_patch_dir}/*.patch"
-    exit 1
-fi
+for patch in "${PATCHES[@]}"; do
+  echo "Applying patch: ${patch}"
+  patch -p1 < "${patch}"
+done
 
-# Reset previously applied patches
-reset_gluon_build_dir
+popd >/dev/null
 
-# Apply all patches
-echo "Applying Patches."
-if ! git apply --ignore-space-change --ignore-whitespace --whitespace=nowarn --verbose "${gluon_patch_dir}"/*.patch; then
-    echo "Patching failed. Inspect ${gluon_build_dir} folder for failed patches."
-    exit 1
-fi
-
-echo "Patching finished."
-popd
+echo "All patches applied successfully."
