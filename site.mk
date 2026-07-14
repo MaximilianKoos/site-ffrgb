@@ -1,15 +1,6 @@
 GLUON_MULTIDOMAIN=1
 GLUON_DEPRECATED ?= upgrade
 
-# base packages
-GLUON_SITE_PACKAGES := \
-	gluon-segment-mover \
-	iwinfo \
-	gluon-ssid-changer \
-	respondd-module-airtime \
-	gluon-mesh-vpn-wireguard-vxlan \
-	ffrgb-banner 
-
 DEFAULT_GLUON_RELEASE := snapshot~$(shell date '+%Y%m%d')
 # Allow overriding the release number from the command line
 GLUON_RELEASE ?= $(DEFAULT_GLUON_RELEASE)
