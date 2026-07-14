@@ -32,6 +32,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gluon-
 
+      - name: Fix script permissions
+        run: |
+          chmod +x scripts/apply_patches.sh || true
+          chmod +x scripts/*.sh || true
+
       - name: Build firmware
         env:
           GLUON_GIT_REF: v2023.2.6
