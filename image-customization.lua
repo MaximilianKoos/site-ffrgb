@@ -1,29 +1,104 @@
--- Gluon image customization for Freifunk Regensburg fork
--- for Gluon >= 2023.2
+features({
+  'autoupdater',
+  'config-mode-domain-select',
+  'config-mode-geo-location-osm',
+  'config-mode-mesh-vpn',
+  'ebtables-filter-multicast',
+  'ebtables-filter-ra-dhcp',
+  'ebtables-source-filter',
+  'mesh-batman-adv-15',
+  'respondd',
+  'status-page',
+  'web-advanced',
+  'web-private-wifi',
+  'web-wizard',
+})
 
-local M = {}
+packages({
+  'gluon-segment-mover',
+  'iwinfo',
+  'gluon-ssid-changer',
+  'respondd-module-airtime',
+  'gluon-mesh-vpn-wireguard-vxlan',
+  'ffrgb-banner',
+})
 
-function M.register(common)
-  common.features.autoupdater = true
-  common.features["config-mode-domain-select"] = true
-  common.features["config-mode-geo-location-osm"] = true
-  common.features["config-mode-mesh-vpn"] = true
-  common.features["ebtables-filter-multicast"] = true
-  common.features["ebtables-filter-ra-dhcp"] = true
-  common.features["ebtables-source-filter"] = true
-  common.features["mesh-batman-adv-15"] = true
-  common.features["respondd"] = true
-  common.features["status-page"] = true
-  common.features["web-advanced"] = true
-  common.features["web-private-wifi"] = true
-  common.features["web-wizard"] = true
-
-  common.packages["gluon-segment-mover"] = true
-  common.packages["iwinfo"] = true
-  common.packages["gluon-ssid-changer"] = true
-  common.packages["respondd-module-airtime"] = true
-  common.packages["gluon-mesh-vpn-wireguard-vxlan"] = true
-  common.packages["ffrgb-banner"] = true
+if target('x86', '64') then
+  packages({
+    'kmod-usb-hid',
+    'kmod-hid-generic',
+    'kmod-button-hotplug',
+    'kmod-usb-core',
+    'kmod-usb2',
+    'block-mount',
+    'blkid',
+    'kmod-fs-ext4',
+    'kmod-fs-vfat',
+    'kmod-usb-storage',
+    'kmod-usb-storage-extras',
+    'kmod-nls-cp1250',
+    'kmod-nls-cp1251',
+    'kmod-nls-cp437',
+    'kmod-nls-cp775',
+    'kmod-nls-cp850',
+    'kmod-nls-cp852',
+    'kmod-nls-cp866',
+    'kmod-nls-iso8859-1',
+    'kmod-nls-iso8859-13',
+    'kmod-nls-iso8859-15',
+    'kmod-nls-iso8859-2',
+    'kmod-nls-koi8r',
+    'kmod-nls-utf8',
+    'swap-utils',
+    'kmod-mii',
+    'kmod-nls-base',
+    'kmod-usb-net',
+    'kmod-usb-net-asix',
+    'kmod-usb-net-asix-ax88179',
+    'kmod-usb-net-cdc-eem',
+    'kmod-usb-net-cdc-ether',
+    'kmod-usb-net-cdc-mbim',
+    'kmod-usb-net-cdc-ncm',
+    'kmod-usb-net-cdc-subset',
+    'kmod-usb-net-dm9601-ether',
+    'kmod-usb-net-hso',
+    'kmod-usb-net-huawei-cdc-ncm',
+    'kmod-usb-net-ipheth',
+    'kmod-usb-net-kalmia',
+    'kmod-usb-net-kaweth',
+    'kmod-usb-net-mcs7830',
+    'kmod-usb-net-pegasus',
+    'kmod-usb-net-qmi-wwan',
+    'kmod-usb-net-rndis',
+    'kmod-usb-net-rtl8152',
+    'kmod-usb-net-sierrawireless',
+    'kmod-usb-net-smsc95xx',
+    'kmod-rtl8192cu',
+    'kmod-rtl8187',
+    'kmod-ath9k-htc',
+    'kmod-ath9k-common',
+    'kmod-ath',
+    'kmod-rt73-usb',
+    'kmod-carl9170',
+    'kmod-brcmfmac',
+    'kmod-3c59x',
+    'kmod-e100',
+    'kmod-e1000',
+    'kmod-e1000e',
+    'kmod-forcedeth',
+    'kmod-natsemi',
+    'kmod-ne2k-pci',
+    'kmod-pcnet32',
+    'kmod-r8169',
+    'kmod-sis900',
+    'kmod-sky2',
+    'kmod-tg3',
+    'kmod-tulip',
+    'kmod-via-rhine',
+    'iperf',
+    'socat',
+    'tcpdump',
+    'usbutils',
+    'vnstat',
+  })
 end
-
-return M
